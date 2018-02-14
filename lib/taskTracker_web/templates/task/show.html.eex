@@ -13,6 +13,11 @@
   </li>
 
   <li>
+    <strong>Title:</strong>
+    <%= @task.user.name %>
+  </li>
+
+  <li>
     <strong>Time invested:</strong>
     <%= @task.time_invested %>
   </li>

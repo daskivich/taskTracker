@@ -5,6 +5,7 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
+      <th>Assigned To</th>
       <th>Time invested</th>
       <th>Completed</th>
 
@@ -16,6 +17,7 @@
     <tr>
       <td><%= task.title %></td>
       <td><%= task.description %></td>
+      <td><%= task.user.name %></td>
       <td><%= task.time_invested %></td>
       <td><%= task.completed %></td>
 
