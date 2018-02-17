@@ -13,6 +13,22 @@
 
   <body>
     <div class="container">
+      <div class="row">
+        <div class="col-3">
+          TaskTracker
+        </div>
+        <div class="col-3 offset-6">
+          <%= if @current_user do %>
+            <p>
+              logged in as <%= @current_user.name %> |
+              <%= link "log out", to: "/session", method: :delete %>
+            </p>
+          <% else %>
+            <p> you are not currently logged in
+          <% end %>
+        </div>
+      </div>
+
       <%= if get_flash(@conn, :info) do %>
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <% end %>
