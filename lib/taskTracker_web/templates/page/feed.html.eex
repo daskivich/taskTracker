@@ -1,8 +1,45 @@
 <%= if @current_user do %>
   <div class="row">
     <div class="col">
-      <%= render TaskTrackerWeb.TaskView, "form.html",
-        Map.put(assigns, :action, task_path(@conn, :create)) %>
+    <%= form_for @changeset, task_path(@conn, :create), fn f -> %>
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= label f, :title, class: "control-label" %>
+        <%= text_input f, :title, class: "form-control" %>
+        <%= error_tag f, :title %>
+      </div>
+
+      <div class="form-group">
+        <%= label f, :description, class: "control-label" %>
+        <%= textarea f, :description, class: "form-control" %>
+        <%= error_tag f, :description %>
+      </div>
+
+      <div class="form-group">
+        <%= label f, :user_id, class: "control-label" %>
+        <%= select f, :user_id, Enum.map(@users, fn u -> {u.name, u.id} end) %>
+        <%= error_tag f, :user_id %>
+      </div>
+
+      <div class="form-group">
+        <%= hidden_input f, :time_invested, value: "0" %>
+        <%= error_tag f, :time_invested %>
+      </div>
+
+      <div class="form-group">
+        <%= hidden_input f, :completed, value: "false" %>
+        <%= error_tag f, :completed %>
+      </div>
+
+      <div class="form-group">
+        <%= submit "Submit", class: "btn btn-primary" %>
+      </div>
+    <% end %>
     </div>
   </div>
 <% end %>
@@ -17,6 +54,8 @@
         <h6 class="card-title"><%= task.title %></h6>
         <p>assigned to: <%= task.user.name %></p>
         <p><%= task.description %></p>
+        <p>time invested: <%= task.time_invested %> minutes</p>
+        <p>completed: <%= task.completed %></p>
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ defmodule TaskTrackerWeb.PageController do
   def feed(conn, _params) do
     tasks = TaskTracker.Work.list_tasks()
     changeset = TaskTracker.Work.change_task(%TaskTracker.Work.Task{})
-    render conn, "feed.html", tasks: tasks, changeset: changeset
+    users = TaskTracker.Accounts.list_users()
+    render conn, "feed.html", tasks: tasks, changeset: changeset, users: users
   end
 end

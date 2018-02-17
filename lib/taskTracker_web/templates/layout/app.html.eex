@@ -24,7 +24,7 @@
               <%= link "log out", to: "/session", method: :delete %>
             </p>
           <% else %>
-            <p> you are not currently logged in
+            <p> you are not logged in
           <% end %>
         </div>
       </div>

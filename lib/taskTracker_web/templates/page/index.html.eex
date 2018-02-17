@@ -11,7 +11,7 @@
       </div>
       <div class="form-group">
         Don't have an account?
-        <%= link "Register for an account today!", to: user_path(@conn, :new) %>
+        <%= link "Register here!", to: user_path(@conn, :new) %>
       </div>
     <% end %>
   </div>

@@ -19,7 +19,7 @@ defmodule TaskTrackerWeb.TaskController do
       {:ok, task} ->
         conn
         |> put_flash(:info, "Task created successfully.")
-        |> redirect(to: task_path(conn, :show, task))
+        |> redirect(to: page_path(conn, :feed))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
