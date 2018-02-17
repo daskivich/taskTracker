@@ -6,9 +6,16 @@ defmodule TaskTrackerWeb.PageController do
   end
 
   def feed(conn, _params) do
-    tasks = TaskTracker.Work.list_tasks()
-    changeset = TaskTracker.Work.change_task(%TaskTracker.Work.Task{})
-    users = TaskTracker.Accounts.list_users()
-    render conn, "feed.html", tasks: tasks, changeset: changeset, users: users
+    user_id = get_session(conn, :user_id)
+
+    if user_id do
+      tasks = TaskTracker.Work.list_tasks()
+      changeset = TaskTracker.Work.change_task(%TaskTracker.Work.Task{})
+      users = TaskTracker.Accounts.list_users()
+      render conn, "feed.html", tasks: tasks, changeset: changeset, users: users
+    else
+      conn
+      |> redirect(to: page_path(conn, :index))
+    end
   end
 end

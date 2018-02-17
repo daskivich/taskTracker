@@ -14,10 +14,10 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-3">
+        <div class="col float-left">
           TaskTracker
         </div>
-        <div class="col-3 offset-6">
+        <div class="col float-right">
           <%= if @current_user do %>
             <p>
               logged in as <%= @current_user.name %> |
