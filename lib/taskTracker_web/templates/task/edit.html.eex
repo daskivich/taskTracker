@@ -1,48 +1,64 @@
-<h2>Edit Task</h2>
+<div class="row">
+  <div class="col">
+    <div class="card mb-2">
+      <div class="card-body">
+        <%= form_for @changeset, task_path(@conn, :update, @task), fn f -> %>
+          <div class="clearfix">
+            <h4 class="card-title float-left">
+              <%= @task.title %>
+            </h4>
+            <p class="white float-right">
+              created <%= NaiveDateTime.to_date(@task.inserted_at) %>
+            </p>
+            <p class="text-center white">task <%= @task.id %>
+            </p>
+          </div>
 
-<%= form_for @changeset, task_path(@conn, :update, @task), fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+          <div class="form-group">
+            <p class="form-control"><%= @task.description %></p>
+          </div>
+
+          <%= if @changeset.action do %>
+            <div class="alert alert-danger">
+              <p>Oops, something went wrong! Please check the errors below.</p>
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <%= hidden_input f, :title, class: "form-control" %>
+            <%= error_tag f, :title %>
+          </div>
+
+          <div class="form-group">
+            <%= hidden_input f, :description, class: "form-control" %>
+            <%= error_tag f, :description %>
+          </div>
+
+          <div class="form-group">
+            <%= hidden_input f, :user_id, class: "form-control" %>
+            <%= error_tag f, :user_id %>
+          </div>
+
+          <div class="form-group">
+            time invested
+            <%= number_input f, :time_invested, class: "form-control" %>
+            <%= error_tag f, :time_invested %>
+          </div>
+
+          <div class="form-group float-left">
+            completed:
+            <%= checkbox f, :completed, class: "checkbox" %>
+            <%= error_tag f, :completed %>
+          </div>
+
+          <div class="form-group float-right">
+            <%= submit "update", class: "btn btn-primary" %>
+          </div>
+
+        <% end %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="form-group">
-    <p>Title</p>
-    <p><%= @task.title %></p>
-    <%= hidden_input f, :title, class: "form-control" %>
-    <%= error_tag f, :title %>
   </div>
+</div>
 
-  <div class="form-group">
-    <p>Description</p>
-    <p><%= @task.description %></p>
-    <%= hidden_input f, :description, class: "form-control" %>
-    <%= error_tag f, :description %>
-  </div>
-
-  <div class="form-group">
-    <p>Assigned To</p>
-    <p><%= @task.user.name %></p>
-    <%= hidden_input f, :user_id, class: "form-control" %>
-    <%= error_tag f, :user_id %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :time_invested, class: "control-label" %>
-    <%= number_input f, :time_invested, class: "form-control" %>
-    <%= error_tag f, :time_invested %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :completed, class: "control-label" %>
-    <%= checkbox f, :completed, class: "checkbox" %>
-    <%= error_tag f, :completed %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
-<% end %>
-
-<span><%= link "Back", to: task_path(@conn, :index) %></span>
+<p class="text-center"><%= link "back", to: page_path(@conn, :feed) %></p>

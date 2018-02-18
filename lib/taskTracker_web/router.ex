@@ -14,14 +14,13 @@ defmodule TaskTrackerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  # a method that sets the
+  # a method that sets the current_user
   def get_current_user(conn, _params) do
     user_id = get_session(conn, :user_id)
 
     if user_id do
       user = TaskTracker.Accounts.get_user!(user_id)
       assign(conn, :current_user, user)
-      |> assign(:users, TaskTracker.Accounts.list_users())
     else
       assign(conn, :current_user, nil)
     end
