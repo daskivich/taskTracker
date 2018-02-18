@@ -1,23 +1,23 @@
 <div class="row">
   <div class="col">
-    <h1>Log In to Your Account</h1>
     <div class="card">
       <div class="card-body">
+        <h2 class="card-title text-center">Access Your Account</h2>
         <%= form_tag("/session", method: :post) do %>
           <div class="form-group">
-            email:
-            <input type="email" name="email" placeholder="user@example.com">
+            <p>email:</p>
+            <p><input type="email" name="email" placeholder="user@example.com"></p>
           </div>
-          <div class="form-group">
+          <div class="form-group float-right">
             <button class="btn btn-primary">log in</button>
           </div>
         <% end %>
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group text-center">
       Don't have an account?
-      <%= link "Register here!", to: user_path(@conn, :new) %>
+      <%= link "Create one here!", to: user_path(@conn, :new) %>
     </div>
 
   </div>

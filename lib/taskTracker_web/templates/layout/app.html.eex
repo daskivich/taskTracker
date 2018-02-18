@@ -14,18 +14,16 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col float-left">
-          TaskTracker
-        </div>
-        <div class="col float-right">
-          <%= if @current_user do %>
-            <p>
-              logged in as <%= @current_user.name %> |
-              <%= link "log out", to: "/session", method: :delete %>
-            </p>
-          <% else %>
-            <p> you are not logged in
-          <% end %>
+        <div class="col mt-2">
+          <span class"float-left">
+            TaskTracker
+          </span>
+          <span class="float-right">
+            <%= if @current_user do %>
+                logged in as <%= @current_user.name %> |
+                <%= link "log out", to: "/session", method: :delete %>
+            <% end %>
+          </span>
         </div>
       </div>
 
