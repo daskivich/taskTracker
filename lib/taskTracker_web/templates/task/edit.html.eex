@@ -7,9 +7,9 @@
             <p class="white float-right">
               #<%= @task.id %>
             </p>
-            <h4 class="card-title text-center">
+            <h3 class="card-title text-center">
               <%= @task.title %>
-            </h4>
+            </h3>
           </div>
 
           <%= if @changeset.action do %>
@@ -49,7 +49,7 @@
           </div>
 
           <div class="form-group">
-            mark as completed 
+            mark as completed
             <%= checkbox f, :completed, class: "checkbox" %>
             <%= error_tag f, :completed %>
           </div>

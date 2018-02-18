@@ -4,7 +4,7 @@
     Map.put(assigns, :action, task_path(@conn, :create)) |>
       Map.put(:cancel, false) %>
 
-  <h1 class="text-center">Your Tasks</h1>
+  YourTasks
 
   <%= Enum.map @tasks, fn task -> %>
     <%= if task.user_id == @current_user.id do %>

@@ -1,7 +1,7 @@
 <%= if @current_user do %>
   <div class="row">
     <div class="col">
-      <div class="card mb-4">
+      <div class="card mb-3">
         <div class="card-body">
           <h2 class="text-center">Create a Task</h2>
           <%= form_for @changeset, task_path(@conn, :create), fn f -> %>
