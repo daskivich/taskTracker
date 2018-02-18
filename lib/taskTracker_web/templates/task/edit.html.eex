@@ -43,8 +43,9 @@
           </div>
 
           <div class="form-group">
-            time invested
-            <%= number_input f, :time_invested, class: "form-control" %>
+            time invested (in minutes)
+            <%= select f, :time_invested, Enum.map(0..672, fn x -> x * 15 end), 
+              class: "form-control" %>
             <%= error_tag f, :time_invested %>
           </div>
 
