@@ -2,9 +2,25 @@
 @import "bootstrap";
 
 .card-body {
-  background-color: LightSteelBlue;
+  background-color: #b5cde1;
 }
 
 .white {
   color: White;
+}
+
+.bp {
+  background-color: #6a9bc3;
+}
+
+.bp:hover {
+  background: #386890;
+}
+
+.bs {
+  background-color: DarkGrey;
+}
+
+.bs:hover {
+  background: Grey;
 }

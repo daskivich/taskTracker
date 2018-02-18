@@ -4,18 +4,12 @@
       <div class="card-body">
         <%= form_for @changeset, task_path(@conn, :update, @task), fn f -> %>
           <div class="clearfix">
-            <h4 class="card-title float-left">
+            <p class="white float-right">
+              #<%= @task.id %>
+            </p>
+            <h4 class="card-title text-center">
               <%= @task.title %>
             </h4>
-            <p class="white float-right">
-              created <%= NaiveDateTime.to_date(@task.inserted_at) %>
-            </p>
-            <p class="text-center white">task <%= @task.id %>
-            </p>
-          </div>
-
-          <div class="form-group">
-            <p class="form-control"><%= @task.description %></p>
           </div>
 
           <%= if @changeset.action do %>
@@ -25,13 +19,22 @@
           <% end %>
 
           <div class="form-group">
-            <%= hidden_input f, :title, class: "form-control" %>
-            <%= error_tag f, :title %>
+            description
+            <p class="form-control"><%= @task.description %></p>
+            <%= hidden_input f, :description, class: "form-control" %>
+            <%= error_tag f, :description %>
           </div>
 
           <div class="form-group">
-            <%= hidden_input f, :description, class: "form-control" %>
-            <%= error_tag f, :description %>
+            created
+            <p class="form-control">
+              <%= NaiveDateTime.to_date(@task.inserted_at) %>
+            </p>
+          </div>
+
+          <div class="form-group">
+            <%= hidden_input f, :title, class: "form-control" %>
+            <%= error_tag f, :title %>
           </div>
 
           <div class="form-group">
@@ -45,20 +48,22 @@
             <%= error_tag f, :time_invested %>
           </div>
 
-          <div class="form-group float-left">
-            completed:
+          <div class="form-group">
+            mark as completed 
             <%= checkbox f, :completed, class: "checkbox" %>
             <%= error_tag f, :completed %>
           </div>
 
-          <div class="form-group float-right">
-            <%= submit "update", class: "btn btn-primary" %>
+          <div class="form-group">
+            <%= submit "update", class: "btn btn-primary btn-block bp" %>
           </div>
 
+          <div class="form-group">
+            <%= link "cancel", to: page_path(@conn, :feed),
+            class: "btn btn-secondary btn-block bs", role: "button" %>
+          </div>
         <% end %>
       </div>
     </div>
   </div>
 </div>
-
-<p class="text-center"><%= link "back", to: page_path(@conn, :feed) %></p>

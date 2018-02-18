@@ -1,33 +1,54 @@
-<h2>Show Task</h2>
+<div class="row">
+  <div class="col">
+    <div class="card mb-2">
+      <div class="card-body">
+          <div class="clearfix">
+            <p class="white float-right">
+              #<%= @task.id %>
+            </p>
 
-<ul>
+            <h4 class="card-title text-center">
+              <%= @task.title %>
+            </h4>
+          </div>
 
-  <li>
-    <strong>Title:</strong>
-    <%= @task.title %>
-  </li>
+          <div class="form-group">
+            description
+            <p class="form-control">
+              <%= @task.description %>
+            </p>
+          </div>
 
-  <li>
-    <strong>Description:</strong>
-    <%= @task.description %>
-  </li>
+          <div class="form-group">
+            created
+            <p class="form-control">
+              <%= NaiveDateTime.to_date(@task.inserted_at) %>
+            </p>
+          </div>
 
-  <li>
-    <strong>Title:</strong>
-    <%= @task.user.name %>
-  </li>
+          <div class="form-group">
+            time invested
+            <p class="form-control"><%= @task.time_invested %> minutes</p>
+          </div>
 
-  <li>
-    <strong>Time invested:</strong>
-    <%= @task.time_invested %>
-  </li>
+          <div class="form-group">
+            status
+            <p class="form-control">
+              <%= if @task.completed do %>
+                completed
+              <% else %>
+                incomplete
+              <% end %>
+            </p>
+          </div>
 
-  <li>
-    <strong>Completed:</strong>
-    <%= @task.completed %>
-  </li>
+          <%= form_tag(Enum.join(["/tasks/", @task.id, "/edit"]), method: :get) do %>
+            <div class="form-group">
+              <button class="btn btn-primary btn-block bp">edit</button>
+            </div>
+          <% end %>
 
-</ul>
-
-<span><%= link "Edit", to: task_path(@conn, :edit, @task) %></span>
-<span><%= link "Back", to: task_path(@conn, :index) %></span>
+      </div>
+    </div>
+  </div>
+</div>

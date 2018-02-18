@@ -22,7 +22,7 @@ defmodule TaskTrackerWeb.TaskController do
         |> redirect(to: page_path(conn, :feed))
       {:error, %Ecto.Changeset{} = changeset} ->
         users = TaskTracker.Accounts.list_users()
-        render(conn, "new.html", changeset: changeset, users: users)
+        render(conn, "new.html", changeset: changeset, users: users, cancel: true)
     end
   end
 
