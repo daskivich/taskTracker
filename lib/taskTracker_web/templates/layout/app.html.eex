@@ -22,17 +22,22 @@
             <%= if @current_user do %>
                 logged in as <%= @current_user.name %> |
                 <%= link "log out", to: "/session", method: :delete %> |
-                <%= link "update info", to: user_path(@conn, :edit, @current_user.id) %>
+                <%= link "update info",
+                  to: user_path(@conn, :edit, @current_user.id) %>
             <% end %>
           </span>
         </div>
       </div>
 
       <%= if get_flash(@conn, :info) do %>
-        <p class="alert alert-info text-center border-0" role="alert"><%= get_flash(@conn, :info) %></p>
+        <p class="alert alert-info text-center border-0" role="alert">
+          <%= get_flash(@conn, :info) %>
+        </p>
       <% end %>
       <%= if get_flash(@conn, :error) do %>
-        <p class="alert alert-danger text-center border-0" role="alert"><%= get_flash(@conn, :error) %></p>
+        <p class="alert alert-danger text-center border-0" role="alert">
+          <%= get_flash(@conn, :error) %>
+        </p>
       <% end %>
       <main role="main">
         <%= render @view_module, @view_template, assigns %>

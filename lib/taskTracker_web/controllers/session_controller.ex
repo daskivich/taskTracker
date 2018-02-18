@@ -1,6 +1,9 @@
 defmodule TaskTrackerWeb.SessionController do
   use TaskTrackerWeb, :controller
 
+  # if the given email is in the db, create a SessionController
+  # then redirect to the user's feed (page/feed)
+  # otherwise, redirect to the main log-in page (page/index)
   def create(conn, %{"email" => email}) do
     user = TaskTracker.Accounts.get_user_by_email(email)
 
@@ -16,6 +19,7 @@ defmodule TaskTrackerWeb.SessionController do
     end
   end
 
+  # deletes the current user's session
   def delete(conn, _params) do
     conn
     |> delete_session(:user_id)
