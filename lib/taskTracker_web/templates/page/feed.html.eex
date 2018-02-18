@@ -6,7 +6,7 @@
 
   YourTasks
 
-  <%= Enum.map @tasks, fn task -> %>
+  <%= Enum.map Enum.sort(@tasks, fn t1, t2 -> t1.id > t2.id end), fn task -> %>
     <%= if task.user_id == @current_user.id do %>
       <%= render TaskTrackerWeb.TaskView, "show.html", Map.put(assigns, :task, task) %>
     <% end %>

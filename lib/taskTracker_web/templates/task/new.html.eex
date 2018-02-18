@@ -37,12 +37,12 @@
             </div>
 
             <div class="form-group">
-              <%= submit "submit", class: "btn btn-primary btn-block bp" %>
+              <%= submit "submit", class: "btn btn-primary btn-block bp border-0" %>
             </div>
 
             <%= if @cancel do %>
               <div class="form-group">
-                <%= link "cancel", to: page_path(@conn, :feed), class: "btn btn-secondary btn-block bs", role: "button" %>
+                <%= link "cancel", to: page_path(@conn, :feed), class: "btn btn-secondary btn-block bs border-0", role: "button" %>
               </div>
             <% end %>
           <% end %>

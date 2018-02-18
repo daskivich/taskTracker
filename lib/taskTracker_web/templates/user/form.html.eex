@@ -16,11 +16,11 @@
   </div>
 
   <div class="form-group">
-    <%= submit "create", class: "btn btn-primary btn-block bp" %>
+    <%= submit "create", class: "btn btn-primary btn-block bp border-0" %>
   </div>
 
   <div class="form-group">
     <%= link "cancel", to: page_path(@conn, :index),
-    class: "btn btn-secondary btn-block bs", role: "button" %>
+    class: "btn btn-secondary btn-block bs border-0", role: "button" %>
   </div>
 <% end %>
