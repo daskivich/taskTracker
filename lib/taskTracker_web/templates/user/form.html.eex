@@ -6,12 +6,12 @@
   <% end %>
 
   <div class="form-group">
-    email: <%= text_input f, :email, class: "form-control" %>
+    email: <%= text_input f, :email, placeholder: "user@example.com", class: "form-control" %>
     <%= error_tag f, :email %>
   </div>
 
   <div class="form-group">
-    name: <%= text_input f, :name, class: "form-control" %>
+    name: <%= text_input f, :name, placeholder: "your name here", class: "form-control" %>
     <%= error_tag f, :name %>
   </div>
 

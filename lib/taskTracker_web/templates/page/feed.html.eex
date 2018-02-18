@@ -2,7 +2,7 @@
 
   <div class="row">
     <div class="col">
-      <div class="card mt-2 mb-4">
+      <div class="card mb-4">
         <div class="card-body">
           <%= render TaskTrackerWeb.TaskView, "new.html", Map.put(assigns, :action, task_path(@conn, :create)) %>
         </div>
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <h1>Your Feed</h1>
+  <h1>Your Tasks</h1>
 
   <%= Enum.map @tasks, fn task -> %>
     <%= if task.user_id == @current_user.id do %>
@@ -18,13 +18,19 @@
       <div class="col">
         <div class="card mb-2">
           <div class="card-body">
-            <h6 class="card-title"><%= task.title %></h6>
-            <p>assigned to: <%= task.user.name %></p>
+            <h6 class="card-title">#<%= task.id %>: <%= task.title %></h6>
             <p><%= task.description %></p>
             <p>time invested: <%= task.time_invested %> minutes</p>
-            <p class="float-left">completed: <%= task.completed %></p>
+            <p class="float-left">status:
+              <%= if task.completed do %>
+                completed
+              <% else %>
+                incomplete
+              <% end %>
+            </p>
+
             <p class="float-right">
-              <%= link "edit this task", to: task_path(@conn, :edit, task.id) %>
+              <%= link "edit", to: task_path(@conn, :edit, task.id) %>
             </p>
           </div>
         </div>

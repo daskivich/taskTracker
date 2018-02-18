@@ -5,8 +5,7 @@
         <h2 class="card-title text-center">Access Your Account</h2>
         <%= form_tag("/session", method: :post) do %>
           <div class="form-group">
-            <p>email:</p>
-            <p><input type="email" name="email" placeholder="user@example.com"></p>
+            <p><input class="form-control" type="email" name="email" placeholder="your_email@example.com"></p>
           </div>
           <div class="form-group float-right">
             <button class="btn btn-primary">log in</button>
