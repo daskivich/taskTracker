@@ -18,7 +18,7 @@ defmodule TaskTrackerWeb.TaskController do
   # though if the changeset is invalid, it renders task/new.html
   def create(conn, %{"task" => task_params}) do
     case Work.create_task(task_params) do
-      {:ok, task} ->
+      {:ok, _task} ->
         conn
         |> put_flash(:info, "Task created successfully.")
         |> redirect(to: page_path(conn, :feed))
@@ -46,7 +46,7 @@ defmodule TaskTrackerWeb.TaskController do
     task = Work.get_task!(id)
 
     case Work.update_task(task, task_params) do
-      {:ok, task} ->
+      {:ok, _task} ->
         conn
         |> put_flash(:info, "Task updated successfully.")
         |> redirect(to: page_path(conn, :feed))

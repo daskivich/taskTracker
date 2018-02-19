@@ -18,7 +18,7 @@ defmodule TaskTrackerWeb.UserController do
   # unless given an invalid changeset, then renders user/new.html
   def create(conn, %{"user" => user_params}) do
     case Accounts.create_user(user_params) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: page_path(conn, :index))
@@ -44,7 +44,7 @@ defmodule TaskTrackerWeb.UserController do
     user = Accounts.get_user!(id)
 
     case Accounts.update_user(user, user_params) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
         |> redirect(to: page_path(conn, :feed))
