@@ -48,7 +48,7 @@
             <p>
               <%= link "edit", to: task_path(@conn, :edit, @task),
                 class: "btn btn-primary btn-block bp border-0",
-                role: "button "%>
+                role: "button"%>
             </p>
           </div>
       </div>
