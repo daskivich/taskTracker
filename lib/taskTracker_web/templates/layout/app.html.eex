@@ -13,21 +13,16 @@
 
   <body class="alice-blue">
     <div class="container">
-      <div class="row">
-        <div class="col mt-2">
-          <span class="float-left">
-            TaskTracker
-          </span>
-          <span class="float-right">
-            <%= if @current_user do %>
-                logged in as <%= @current_user.name %> |
-                <%= link "log out", to: "/session", method: :delete %> |
-                <%= link "update info",
-                  to: user_path(@conn, :edit, @current_user.id) %>
-            <% end %>
-          </span>
-        </div>
-      </div>
+      <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+        <h1 class="navbar-brand mb-0">TaskTracker</h1>
+        <%= if @current_user do %>
+          <%= link "feed", to: page_path(@conn, :feed), class: "nav-item nav-link" %>
+          <%= link "user list", to: user_path(@conn, :index), class: "nav-item nav-link" %>
+          <%= link "account info", to: user_path(@conn, :edit, @current_user.id), class: "nav-item nav-link" %>
+          <%= link "log out", to: "/session", method: :delete, class: "nav-item nav-link" %>
+          <%= @current_user.name %>
+        <% end %>
+      </nav>
 
       <%= if get_flash(@conn, :info) do %>
         <p class="alert alert-info text-center border-0" role="alert">
