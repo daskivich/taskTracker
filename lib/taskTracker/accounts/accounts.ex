@@ -18,8 +18,9 @@ defmodule TaskTracker.Accounts do
 
   """
   def list_users do
-    Repo.all(User) |>
-    Enum.sort(fn u1, u2 -> u1.name < u2.name end)
+    Repo.all(User) 
+    |> Repo.preload(:manager)
+    |> Enum.sort(fn u1, u2 -> u1.name < u2.name end)
   end
 
   @doc """

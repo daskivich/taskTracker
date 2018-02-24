@@ -1,10 +1,11 @@
-<h2>Listing Users</h2>
+<h2>User List</h2>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Email</th>
-      <th>Name</th>
+      <th>name</th>
+      <th>email</th>
+      <th>manager</th>
 
       <th></th>
     </tr>
@@ -12,10 +13,11 @@
   <tbody>
 <%= for user <- @users do %>
     <tr>
-      <td><%= user.email %></td>
       <td><%= user.name %></td>
+      <td><%= user.email %></td>
+      <td><%= if user.manager == nil do "none" else user.manager.name end %></td>
 
-      <td class="text-right">
+      <!-- <td class="text-right">
         <span>
           <%= link "Show", to: user_path(@conn, :show, user),
             class: "btn btn-default btn-xs" %>
@@ -29,7 +31,7 @@
             method: :delete, data: [confirm: "Are you sure?"],
             class: "btn btn-danger btn-xs" %>
         </span>
-      </td>
+      </td> -->
     </tr>
 <% end %>
   </tbody>

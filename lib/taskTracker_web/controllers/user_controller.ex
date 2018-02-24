@@ -34,8 +34,9 @@ defmodule TaskTrackerWeb.UserController do
 
   def edit(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
+    users = Accounts.list_users()
     changeset = Accounts.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    render(conn, "edit.html", user: user, changeset: changeset, users: users)
   end
 
   # updates teh given user and redirects to that user's feed
@@ -58,7 +59,8 @@ defmodule TaskTrackerWeb.UserController do
     {:ok, _user} = Accounts.delete_user(user)
 
     conn
+    |> delete_session(:user_id)
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: user_path(conn, :index))
+    |> redirect(to: page_path(conn, :index))
   end
 end

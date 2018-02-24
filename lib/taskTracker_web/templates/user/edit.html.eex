@@ -2,7 +2,7 @@
   <div class="col">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title text-center">Update Account Info</h2>
+        <h2 class="card-title text-center">Account Info</h2>
         <%= form_for @changeset, user_path(@conn, :update, @user), fn f -> %>
           <%= if @changeset.action do %>
             <div class="alert alert-danger">
@@ -25,8 +25,22 @@
           </div>
 
           <div class="form-group">
+            <%= select f, :manager_id,
+              Enum.map(@users, fn u -> {u.name, u.id} end),
+              prompt: "managed by...", class: "custom-select" %>
+            <%= error_tag f, :manager_id %>
+          </div>
+
+          <div class="form-group">
             <%= submit "update",
               class: "btn btn-primary btn-block bp border-0" %>
+          </div>
+
+          <div class="form-group">
+            <%= link "delete", to: user_path(@conn, :delete, @user),
+              method: :delete, data: [confirm: "Are you sure you want to delete your account? This action is irreversible!"],
+              class: "btn btn-danger btn-block bd border-0",
+              role: "button" %>
           </div>
 
           <div class="form-group">
