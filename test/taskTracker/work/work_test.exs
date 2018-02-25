@@ -68,4 +68,66 @@ defmodule TaskTracker.WorkTest do
       assert %Ecto.Changeset{} = Work.change_task(task)
     end
   end
+
+  describe "blocks" do
+    alias TaskTracker.Work.Block
+
+    @valid_attrs %{end_time: ~N[2010-04-17 14:00:00.000000], start_time: ~N[2010-04-17 14:00:00.000000]}
+    @update_attrs %{end_time: ~N[2011-05-18 15:01:01.000000], start_time: ~N[2011-05-18 15:01:01.000000]}
+    @invalid_attrs %{end_time: nil, start_time: nil}
+
+    def block_fixture(attrs \\ %{}) do
+      {:ok, block} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Work.create_block()
+
+      block
+    end
+
+    test "list_blocks/0 returns all blocks" do
+      block = block_fixture()
+      assert Work.list_blocks() == [block]
+    end
+
+    test "get_block!/1 returns the block with given id" do
+      block = block_fixture()
+      assert Work.get_block!(block.id) == block
+    end
+
+    test "create_block/1 with valid data creates a block" do
+      assert {:ok, %Block{} = block} = Work.create_block(@valid_attrs)
+      assert block.end_time == ~N[2010-04-17 14:00:00.000000]
+      assert block.start_time == ~N[2010-04-17 14:00:00.000000]
+    end
+
+    test "create_block/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Work.create_block(@invalid_attrs)
+    end
+
+    test "update_block/2 with valid data updates the block" do
+      block = block_fixture()
+      assert {:ok, block} = Work.update_block(block, @update_attrs)
+      assert %Block{} = block
+      assert block.end_time == ~N[2011-05-18 15:01:01.000000]
+      assert block.start_time == ~N[2011-05-18 15:01:01.000000]
+    end
+
+    test "update_block/2 with invalid data returns error changeset" do
+      block = block_fixture()
+      assert {:error, %Ecto.Changeset{}} = Work.update_block(block, @invalid_attrs)
+      assert block == Work.get_block!(block.id)
+    end
+
+    test "delete_block/1 deletes the block" do
+      block = block_fixture()
+      assert {:ok, %Block{}} = Work.delete_block(block)
+      assert_raise Ecto.NoResultsError, fn -> Work.get_block!(block.id) end
+    end
+
+    test "change_block/1 returns a block changeset" do
+      block = block_fixture()
+      assert %Ecto.Changeset{} = Work.change_block(block)
+    end
+  end
 end

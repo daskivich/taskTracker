@@ -8,8 +8,9 @@
 
   <%= Enum.map Enum.sort(@tasks, fn t1, t2 -> t1.id > t2.id end), fn task -> %>
     <%= if task.user_id == @current_user.id do %>
-      <%= render TaskTrackerWeb.TaskView, "show.html",
-        Map.put(assigns, :task, task) %>
+      <% blocks = TaskTracker.Work.get_blocks_by_task_id(task.id) %>
+      <%= render TaskTrackerWeb.TaskView, "show.html", 
+      Map.put(assigns, :task, task) |> Map.put(:blocks, blocks) %>
     <% end %>
   <% end %>
 

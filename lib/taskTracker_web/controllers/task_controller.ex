@@ -31,13 +31,15 @@ defmodule TaskTrackerWeb.TaskController do
 
   def show(conn, %{"id" => id}) do
     task = Work.get_task!(id)
-    render(conn, "show.html", task: task)
+    blocks = Work.get_blocks_by_task_id(id)
+    render(conn, "show.html", task: task, blocks: blocks)
   end
 
   def edit(conn, %{"id" => id}) do
     task = Work.get_task!(id)
     changeset = Work.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset)
+    blocks = Work.get_blocks_by_task_id(id)
+    render(conn, "edit.html", task: task, changeset: changeset, blocks: blocks)
   end
 
   # updates the specified task and redirects to the current user's feed

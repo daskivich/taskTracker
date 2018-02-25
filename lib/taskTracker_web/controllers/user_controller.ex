@@ -31,11 +31,11 @@ defmodule TaskTrackerWeb.UserController do
     user = Accounts.get_user!(id)
     subordinate_names = Accounts.get_subordinate_names(id)
 
-    if user.manager_id == nil do
-      manager_name = "none"
+    manager_name = if user.manager_id == nil do
+      "none"
     else
       manager = Accounts.get_user!(user.manager_id)
-      manager_name = manager.name
+      manager.name
     end
 
     render(conn, "show.html", user: user, manager_name: manager_name,

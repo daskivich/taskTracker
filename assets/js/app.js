@@ -11,7 +11,7 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
+import "phoenix_html";
 
 // Import local files
 //
@@ -19,3 +19,38 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+import $ from "jquery";
+
+function end_block_click(ev) {
+  let btn = $(ev.target);
+  let id = btn.data('id');
+  let task_id = btn.data('task-id');
+  let start_time = btn.data('start-time');
+  let end_time = new Date();
+
+  let text = JSON.stringify({
+    block: {
+      start_time: start_time,
+      end_time: end_time,
+      task_id: task_id
+    }
+  });
+
+  $.ajax(block_path + "/" + id, {
+    method: "put",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: text
+  });
+}
+
+function init_end_block() {
+  if (!$('.stop-block')) {
+    return;
+  }
+
+  $('.stop-block').click(end_block_click);
+}
+
+$(init_end_block);

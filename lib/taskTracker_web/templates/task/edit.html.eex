@@ -1,3 +1,7 @@
+<script>
+  window.block_path = "<%= block_path(@conn, :index) %>";
+</script>
+
 <div class="row">
   <div class="col">
     <div class="card mb-2">
@@ -50,6 +54,15 @@
           </div>
 
           <div class="form-group">
+            time blocks
+            <%= for block <- @blocks do %>
+              <p class="form-control">
+                <%= block.start_time %> - <%= block.end_time %>
+              </p>
+            <% end %>
+          </div>
+
+          <div class="form-group">
             mark as completed
             <%= checkbox f, :completed, class: "checkbox" %>
             <%= error_tag f, :completed %>
@@ -65,6 +78,42 @@
             class: "btn btn-secondary btn-block bs border-0", role: "button" %>
           </div>
         <% end %>
+
+        <div class="form-group">
+          <% open_blocks = Enum.filter(@blocks, fn b -> b.end_time == nil end) %>
+          <%= if Enum.empty?(open_blocks) do %>
+            <% changeset = TaskTracker.Work.change_block(%TaskTracker.Work.Block{}) %>
+            <%= form_for changeset, block_path(@conn, :create), fn f -> %>
+              <%= if changeset.action do %>
+                <div class="alert alert-danger">
+                  <p>
+                    Oops, something went wrong! Please check the errors below.
+                  </p>
+                </div>
+              <% end %>
+
+              <%= hidden_input f, :start_time, value: DateTime.utc_now() %>
+              <%= error_tag f, :start_time %>
+
+              <%= hidden_input f, :end_time, value: nil %>
+              <%= error_tag f, :end_time %>
+
+              <%= hidden_input f, :task_id, value: @task.id %>
+              <%= error_tag f, :task_id %>
+
+              <%= submit "start new time block",
+                class: "btn btn-primary btn-block bp border-0" %>
+            <% end %>
+          <% else %>
+            <% open_block = Enum.at(open_blocks, 0) %>
+            <button class="stop-block btn btn-primary btn-block bp border-0"
+              data-id="<%= open_block.id %>"
+              data-task-id="<%= open_block.task_id %>"
+              data-start-time="<%= open_block.start_time %>">
+              stop current time block
+            </button>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
