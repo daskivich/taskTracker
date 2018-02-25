@@ -27,11 +27,6 @@
           </div>
 
           <div class="form-group">
-            time invested
-            <p class="form-control"><%= @task.time_invested %> minutes</p>
-          </div>
-
-          <div class="form-group">
             time blocks
             <%= for block <- @blocks do %>
               <p class="form-control">
