@@ -18,7 +18,7 @@ defmodule TaskTracker.Accounts do
 
   """
   def list_users do
-    Repo.all(User) 
+    Repo.all(User)
     |> Repo.preload(:manager)
     |> Enum.sort(fn u1, u2 -> u1.name < u2.name end)
   end
@@ -37,7 +37,16 @@ defmodule TaskTracker.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) do
+    Repo.get!(User, id)
+  end
+
+  def get_subordinate_names(id) do
+    query = from u in User,
+      where: u.manager_id == ^id,
+      select: u.name
+    Repo.all(query)
+  end
 
   # a method to get a user given an email that doesn't crash
   # if the id is not in the users table

@@ -29,7 +29,17 @@ defmodule TaskTrackerWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
-    render(conn, "show.html", user: user)
+    subordinate_names = Accounts.get_subordinate_names(id)
+
+    if user.manager_id == nil do
+      manager_name = "none"
+    else
+      manager = Accounts.get_user!(user.manager_id)
+      manager_name = manager.name
+    end
+
+    render(conn, "show.html", user: user, manager_name: manager_name,
+      subordinate_names: subordinate_names)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -48,7 +58,18 @@ defmodule TaskTrackerWeb.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: page_path(conn, :feed))
+
+        current_user = conn.assigns[:current_user]
+        new_manager_id = user_params["manager_id"]
+
+        if Integer.to_string(current_user.id) == new_manager_id do
+          conn
+          |> redirect(to: user_path(conn, :index))
+        else
+          conn
+          |> redirect(to: page_path(conn, :feed))
+        end
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
     end

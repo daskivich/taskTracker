@@ -1,40 +1,61 @@
-<h2>User List</h2>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-0">Users</h2>
+        <table class="table table-striped mb-0 border-0">
+          <thead>
+            <tr>
+              <th class="border-0">name</th>
+              <th class="border-0">email</th>
+              <th class="border-0">manager</th>
+              <th class="border-0">profile</th>
+              <th class="border-0">manage</th>
+            </tr>
+          </thead>
+          <tbody>
+        <%= for user <- @users do %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= if user.manager == nil do "none" else user.manager.name end %></td>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>email</th>
-      <th>manager</th>
+              <td>
+                <%= link "view", to: user_path(@conn, :show, user),
+                  class: "btn btn-primary bp border-0", role: "button" %>
+                <!-- <span>
+                  <%= link "Edit", to: user_path(@conn, :edit, user),
+                    class: "btn btn-default btn-xs" %>
+                </span>
+                <span>
+                  <%= link "Delete", to: user_path(@conn, :delete, user),
+                    method: :delete, data: [confirm: "Are you sure?"],
+                    class: "btn btn-danger btn-xs" %>
+                </span> -->
+              </td>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for user <- @users do %>
-    <tr>
-      <td><%= user.name %></td>
-      <td><%= user.email %></td>
-      <td><%= if user.manager == nil do "none" else user.manager.name end %></td>
-
-      <!-- <td class="text-right">
-        <span>
-          <%= link "Show", to: user_path(@conn, :show, user),
-            class: "btn btn-default btn-xs" %>
-        </span>
-        <span>
-          <%= link "Edit", to: user_path(@conn, :edit, user),
-            class: "btn btn-default btn-xs" %>
-        </span>
-        <span>
-          <%= link "Delete", to: user_path(@conn, :delete, user),
-            method: :delete, data: [confirm: "Are you sure?"],
-            class: "btn btn-danger btn-xs" %>
-        </span>
-      </td> -->
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New User", to: user_path(@conn, :new) %></span>
+              <td>
+                <% changeset = TaskTracker.Accounts.change_user(user) %>
+                <%= form_for changeset, user_path(@conn, :update, user), fn f -> %>
+                  <%= if changeset.action do %>
+                    <div class="alert alert-danger">
+                      <p>Oops, something went wrong! Please check the errors below.</p>
+                    </div>
+                  <% end %>
+                  <%= hidden_input f, :name, value: user.name %>
+                  <%= error_tag f, :name %>
+                  <%= hidden_input f, :email, value: user.email %>
+                  <%= error_tag f, :email %>
+                  <%= hidden_input f, :manager_id, value: @current_user.id %>
+                  <%= error_tag f, :manager_id %>
+                  <%= submit "become manager", class: "btn btn-danger bp border-0" %>
+                <% end %>
+              </td>
+            </tr>
+        <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

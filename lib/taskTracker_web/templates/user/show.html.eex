@@ -1,18 +1,33 @@
-<h2>Show User</h2>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title text-center">User Profile</h2>
 
-<ul>
+        <div class="form-group">
+          name
+          <p class="form-control"><%= @user.name %></p>
+        </div>
 
-  <li>
-    <strong>Email:</strong>
-    <%= @user.email %>
-  </li>
+        <div class="form-group">
+          email
+          <p class="form-control"><%= @user.email %></p>
+        </div>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @user.name %>
-  </li>
+        <div class="form-group">
+          manager
+          <p class="form-control"><%= @manager_name %></p>
+        </div>
 
-</ul>
-
-<span><%= link "Edit", to: user_path(@conn, :edit, @user) %></span>
-<span><%= link "Back", to: user_path(@conn, :index) %></span>
+        <div class="form-group">
+          subordinates
+          <p class="form-control">
+            <%= Enum.map @subordinate_names, fn name -> %>
+            <%= name <> ", " %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -25,9 +25,10 @@
           </div>
 
           <div class="form-group">
+            manager
             <%= select f, :manager_id,
               Enum.map(@users, fn u -> {u.name, u.id} end),
-              prompt: "managed by...", class: "custom-select" %>
+              prompt: "none", class: "custom-select" %>
             <%= error_tag f, :manager_id %>
           </div>
 
