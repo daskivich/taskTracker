@@ -2,25 +2,21 @@
   <div class="col">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title text-center mb-0">Users</h2>
+        <h2 class="card-title text-center mb-2">User Profiles</h2>
         <table class="table table-striped mb-0 border-0">
           <thead>
             <tr>
+              <th class="border-0"></th>
               <th class="border-0">name</th>
               <th class="border-0">email</th>
               <th class="border-0">manager</th>
-              <th class="border-0">profile</th>
-              <th class="border-0">manage</th>
+              <th class="border-0"></th>
             </tr>
           </thead>
           <tbody>
         <%= for user <- @users do %>
             <tr>
-              <td><%= user.name %></td>
-              <td><%= user.email %></td>
-              <td><%= if user.manager == nil do "none" else user.manager.name end %></td>
-
-              <td>
+              <td class="align-middle border-0">
                 <%= link "view", to: user_path(@conn, :show, user),
                   class: "btn btn-primary bp border-0", role: "button" %>
                 <!-- <span>
@@ -34,7 +30,11 @@
                 </span> -->
               </td>
 
-              <td>
+              <td class="align-middle border-0"><%= user.name %></td>
+              <td class="align-middle border-0"><%= user.email %></td>
+              <td class="align-middle border-0"><%= if user.manager == nil do "none" else user.manager.name end %></td>
+
+              <td class="align-middle border-0 text-right">
                 <% changeset = TaskTracker.Accounts.change_user(user) %>
                 <%= form_for changeset, user_path(@conn, :update, user), fn f -> %>
                   <%= if changeset.action do %>
@@ -48,7 +48,7 @@
                   <%= error_tag f, :email %>
                   <%= hidden_input f, :manager_id, value: @current_user.id %>
                   <%= error_tag f, :manager_id %>
-                  <%= submit "become manager", class: "btn btn-danger bp border-0" %>
+                  <%= submit "add as subordinate", class: "btn btn-danger bd border-0" %>
                 <% end %>
               </td>
             </tr>
