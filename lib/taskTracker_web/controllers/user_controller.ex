@@ -46,7 +46,9 @@ defmodule TaskTrackerWeb.UserController do
     user = Accounts.get_user!(id)
     users = Accounts.list_users()
     changeset = Accounts.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset, users: users)
+    subordinate_names = Accounts.get_subordinate_names(id)
+    render(conn, "edit.html", user: user, changeset: changeset, users: users,
+    subordinate_names: subordinate_names)
   end
 
   # updates teh given user and redirects to that user's feed

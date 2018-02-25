@@ -4,7 +4,7 @@
     Map.put(assigns, :action, task_path(@conn, :create)) |>
       Map.put(:cancel, false) %>
 
-  YourTasks
+  MyTasks
 
   <%= Enum.map Enum.sort(@tasks, fn t1, t2 -> t1.id > t2.id end), fn task -> %>
     <%= if task.user_id == @current_user.id do %>

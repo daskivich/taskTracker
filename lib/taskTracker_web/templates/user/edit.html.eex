@@ -2,7 +2,7 @@
   <div class="col">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title text-center">Account Info</h2>
+        <h2 class="card-title text-center">Your Profile</h2>
         <%= form_for @changeset, user_path(@conn, :update, @user), fn f -> %>
           <%= if @changeset.action do %>
             <div class="alert alert-danger">
@@ -30,6 +30,15 @@
               Enum.map(@users, fn u -> {u.name, u.id} end),
               prompt: "none", class: "custom-select" %>
             <%= error_tag f, :manager_id %>
+          </div>
+
+          <div class="form-group">
+            subordinates
+            <p class="form-control">
+              <%= Enum.map @subordinate_names, fn name -> %>
+              <%= name <> ", " %>
+              <% end %>
+            </p>
           </div>
 
           <div class="form-group">

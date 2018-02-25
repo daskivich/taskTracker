@@ -1,44 +1,50 @@
-<h2>Listing Tasks</h2>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-2">Subordinates' Tasks</h2>
+        <table class="table table-striped mb-0 border-0">
+          <thead>
+            <tr>
+              <th class="border-0">assigned to</th>
+              <th class="border-0">title</th>
+              <th class="border-0">description</th>
+              <th class="border-0">time invested</th>
+              <th class="border-0">completed</th>
+              <th class="border-0"></th>
+            </tr>
+          </thead>
+          <tbody>
+        <%= for task <- @tasks do %>
+          <%= if task.user.manager_id == @current_user.id do %>
+            <tr>
+              <td class="align-middle border-0"><%= task.user.name %></td>
+              <td class="align-middle border-0"><%= task.title %></td>
+              <td class="align-middle border-0"><%= task.description %></td>
+              <td class="align-middle border-0"><%= task.time_invested %></td>
+              <td class="align-middle border-0"><%= task.completed %></td>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Assigned To</th>
-      <th>Time invested</th>
-      <th>Completed</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for task <- @tasks do %>
-    <tr>
-      <td><%= task.title %></td>
-      <td><%= task.description %></td>
-      <td><%= task.user.name %></td>
-      <td><%= task.time_invested %></td>
-      <td><%= task.completed %></td>
-
-      <td class="text-right">
-        <span>
-          <%= link "Show", to: task_path(@conn, :show, task),
-            class: "btn btn-default btn-xs" %>
-          </span>
-        <span>
-          <%= link "Edit", to: task_path(@conn, :edit, task),
-            class: "btn btn-default btn-xs" %>
-          </span>
-        <span>
-          <%= link "Delete", to: task_path(@conn, :delete, task),
-            method: :delete, data: [confirm: "Are you sure?"],
-            class: "btn btn-danger btn-xs" %>
-        </span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Task", to: task_path(@conn, :new) %></span>
+              <td class="align-middle text-right border-0">
+                <span>
+                  <%= link "view", to: task_path(@conn, :show, task),
+                    class: "btn btn-primary bp border-0" %>
+                  </span>
+                <!-- <span>
+                  <%= link "Edit", to: task_path(@conn, :edit, task),
+                    class: "btn btn-default btn-xs" %>
+                  </span>
+                <span>
+                  <%= link "Delete", to: task_path(@conn, :delete, task),
+                    method: :delete, data: [confirm: "Are you sure?"],
+                    class: "btn btn-danger btn-xs" %>
+                </span> -->
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

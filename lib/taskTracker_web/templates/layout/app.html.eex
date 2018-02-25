@@ -17,8 +17,9 @@
         <h1 class="navbar-brand mb-0">TaskTracker</h1>
         <%= if @current_user do %>
           <%= link "home", to: page_path(@conn, :feed), class: "nav-item nav-link" %>
+          <%= link "my profile", to: user_path(@conn, :edit, @current_user.id), class: "nav-item nav-link" %>
+          <%= link "task report", to: task_path(@conn, :index), class: "nav-item nav-link" %>
           <%= link "user profiles", to: user_path(@conn, :index), class: "nav-item nav-link" %>
-          <%= link "account info", to: user_path(@conn, :edit, @current_user.id), class: "nav-item nav-link" %>
           <%= link "log out", to: "/session", method: :delete, class: "nav-item nav-link" %>
           <%= @current_user.name %>
         <% end %>
