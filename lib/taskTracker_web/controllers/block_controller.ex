@@ -13,6 +13,8 @@ defmodule TaskTrackerWeb.BlockController do
 
   def create(conn, %{"block" => block_params}) do
     with {:ok, %Block{} = block} <- Work.create_block(block_params) do
+      task = Work.get_task!(block.task_id)
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", block_path(conn, :show, block))

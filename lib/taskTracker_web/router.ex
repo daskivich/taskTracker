@@ -12,6 +12,9 @@ defmodule TaskTrackerWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :get_current_user
+    plug :fetch_flash
   end
 
   # a method that sets the current_user

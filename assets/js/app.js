@@ -22,6 +22,15 @@ import "phoenix_html";
 
 import $ from "jquery";
 
+function set_block_times(id, start_time, end_time) {
+  $('.time-block').each( (_, tb) => {
+    if (id == $(tb).data('id')) {
+      let iso_end_time = end_time.toISOString();
+      $(tb).text(start_time + " - " + iso_end_time);
+    }
+  });
+}
+
 function end_block_click(ev) {
   let btn = $(ev.target);
   let id = btn.data('id');
@@ -41,7 +50,8 @@ function end_block_click(ev) {
     method: "put",
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
-    data: text
+    data: text,
+    success: () => { set_block_times(id, start_time, end_time); }
   });
 }
 

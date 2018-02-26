@@ -56,8 +56,10 @@
           <div class="form-group">
             time blocks
             <%= for block <- @blocks do %>
-              <p class="form-control">
-                <%= block.start_time %> - <%= block.end_time %>
+              <p class="form-control time-block" data-id="<%= block.id %>">
+                  <%= block.start_time %>
+                  -
+                  <%= block.end_time %>
               </p>
             <% end %>
           </div>
