@@ -6,75 +6,115 @@
   <div class="col">
     <div class="card mb-2">
       <div class="card-body">
-        <%= form_for @changeset, task_path(@conn, :update, @task), fn f -> %>
-          <div class="clearfix">
-            <p class="white float-right">
-              #<%= @task.id %>
-            </p>
-            <h3 class="card-title text-center">
-              <%= @task.title %>
-            </h3>
-          </div>
+        <div class="clearfix">
+          <p class="white float-right">
+            #<%= @task.id %>
+          </p>
+          <h3 class="card-title text-center">
+            <%= @task.title %>
+          </h3>
+        </div>
 
+        <div class="form-group">
+          description
+          <p class="form-control"><%= @task.description %></p>
+        </div>
+
+        <div class="form-group">
+          created
+          <p class="form-control">
+            <%= NaiveDateTime.to_date(@task.inserted_at) %>
+          </p>
+        </div>
+
+        <div class="form-group">
+          time spent
+          <p class="form-control">
+          <% f = fn(b, acc) -> if b.end_time != nil do acc + DateTime.diff(b.end_time, b.start_time) else acc + DateTime.diff(DateTime.utc_now(), b.start_time) end end %>
+          <%= Enum.reduce(@blocks, 0, f) %>
+          </p>
+        </div>
+
+        <div class="form-group">
+          status
+          <%= if @task.completed do %>
+            <p class="form-control">
+              completed
+            </p>
+          <% else %>
+            <p class="form-control incomplete">
+              incomplete
+            </p>
+          <% end %>
+        </div>
+
+        <%= form_for @changeset, task_path(@conn, :update, @task), fn f -> %>
           <%= if @changeset.action do %>
             <div class="alert alert-danger">
               <p>Oops, something went wrong! Please check the errors below.</p>
             </div>
           <% end %>
 
-          <div class="form-group">
-            description
-            <p class="form-control"><%= @task.description %></p>
-            <%= hidden_input f, :description, class: "form-control" %>
-            <%= error_tag f, :description %>
-          </div>
-
-          <div class="form-group">
-            created
-            <p class="form-control">
-              <%= NaiveDateTime.to_date(@task.inserted_at) %>
-            </p>
-          </div>
-
-          <div class="form-group">
-            <%= hidden_input f, :title, class: "form-control" %>
-            <%= error_tag f, :title %>
-          </div>
-
-          <div class="form-group">
-            <%= hidden_input f, :user_id, class: "form-control" %>
-            <%= error_tag f, :user_id %>
-          </div>
-
-          <div class="form-group">
-            status
-            <p class="form-control"><%= @task.completed %></p>
-            <%= hidden_input f, :completed, class: "form-control", value: true %>
+          <%= if @task.completed do %>
+            <%= hidden_input f, :completed, class: "form-control", value: "false" %>
             <%= error_tag f, :completed %>
-          </div>
-
-          <div class="form-group">
-            time blocks
-            <%= for block <- @blocks do %>
-              <p class="form-control time-block" data-id="<%= block.id %>">
-                  <%= block.start_time %>
-                  -
-                  <%= block.end_time %>
-              </p>
-            <% end %>
-          </div>
-
-          <%= if !@task.completed do %>
             <div class="form-group">
-              <%= submit "mark as completed",
+              <%= submit "re-open task",
+                class: "btn btn-primary btn-block bp border-0" %>
+            </div>
+          <% else %>
+            <%= hidden_input f, :completed, class: "form-control", value: "true" %>
+            <%= error_tag f, :completed %>
+            <div class="form-group">
+              <%= submit "close task",
                 class: "btn btn-primary btn-block bp border-0" %>
             </div>
           <% end %>
-          <!-- <div class="form-group">
-            <%= link "cancel", to: page_path(@conn, :feed),
-            class: "btn btn-secondary btn-block bs border-0", role: "button" %>
-          </div> -->
         <% end %>
+
+        <table class="table table-striped mb-0 border-0">
+          <thead>
+            <tr>
+              <th class="border-0">time block</th>
+              <th class="border-0">start</th>
+              <th class="border-0">end</th>
+              <th class="border-0"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for block <- @blocks do %>
+              <tr>
+                <td class="align-middle border-0">
+                  <%= block.id %>
+                </td>
+                <td class="align-middle border-0">
+                  <input type="text" value="<%= block.start_time %>"
+                    class="start-time w-100" data-id="<%= block.id %>">
+                </td>
+                <td class="align-middle border-0">
+                  <input type="text" value="<%= block.end_time %>"
+                    class="end-time w-100" data-id="<%= block.id %>">
+                </td>
+                <td class="align-middle border-0">
+                  <%= if block.end_time == nil do %>
+                    <button class="stop-block-btn btn btn-primary btn-block bp border-0"
+                      data-id="<%= block.id %>"
+                      data-task-id="<%= block.task_id %>"
+                      data-start-time="<%= block.start_time %>">
+                      end this time block
+                    </button>
+                  <% else %>
+                    <button class="update-block-btn btn btn-primary btn-block bp border-0"
+                      data-id="<%= block.id %>"
+                      data-task-id="<%= block.task_id %>">
+                      update this time block
+                    </button>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
 
         <%= if !@task.completed do %>
           <div class="form-group">
@@ -102,14 +142,6 @@
                 <%= submit "start new time block",
                   class: "btn btn-primary btn-block bp border-0" %>
               <% end %>
-            <% else %>
-              <% open_block = Enum.at(open_blocks, 0) %>
-              <button class="stop-block btn btn-primary btn-block bp border-0"
-                data-id="<%= open_block.id %>"
-                data-task-id="<%= open_block.task_id %>"
-                data-start-time="<%= open_block.start_time %>">
-                stop current time block
-              </button>
             <% end %>
           </div>
         <% end %>

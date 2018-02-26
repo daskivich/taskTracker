@@ -23,15 +23,21 @@ import "phoenix_html";
 import $ from "jquery";
 
 function set_block_times(id, start_time, end_time) {
-  $('.time-block').each( (_, tb) => {
+  $('.start-time').each( (_, tb) => {
     if (id == $(tb).data('id')) {
-      let iso_end_time = end_time.toISOString();
-      $(tb).text(start_time + " - " + iso_end_time);
+      $(tb).val(start_time);
+    }
+  });
+
+  $('.end-time').each( (_, tb) => {
+    if (id == $(tb).data('id')) {
+//      let iso_end_time = end_time.toISOString();
+      $(tb).val(end_time);
     }
   });
 }
 
-function end_block_click(ev) {
+function stop_block_click(ev) {
   let btn = $(ev.target);
   let id = btn.data('id');
   let task_id = btn.data('task-id');
@@ -55,12 +61,50 @@ function end_block_click(ev) {
   });
 }
 
-function init_end_block() {
-  if (!$('.stop-block')) {
-    return;
-  }
+function update_block_click(ev) {
+  let btn = $(ev.target);
+  let id = btn.data('id');
+  let task_id = btn.data('task-id');
+  let start_time = null;
+  let end_time = null;
 
-  $('.stop-block').click(end_block_click);
+  $('.start-time').each( (_, st) => {
+    if (id == $(st).data('id')) {
+      start_time = $(st).val();
+    }
+  });
+
+  $('.end-time').each( (_, et) => {
+    if (id == $(et).data('id')) {
+      end_time = $(et).val();
+    }
+  });
+
+  let text = JSON.stringify({
+    block: {
+      start_time: start_time,
+      end_time: end_time,
+      task_id: task_id
+    }
+  });
+
+  $.ajax(block_path + "/" + id, {
+    method: "put",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: text,
+    success: () => { set_block_times(id, start_time, end_time); }
+  });
 }
 
-$(init_end_block);
+function init_block() {
+  if ($('.stop-block-btn')) {
+    $('.stop-block-btn').click(stop_block_click);
+  }
+
+  if ($('.update-block-btn')) {
+    $('.update-block-btn').click(update_block_click);
+  }
+}
+
+$(init_block);

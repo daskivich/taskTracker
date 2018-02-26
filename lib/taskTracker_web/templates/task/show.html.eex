@@ -27,12 +27,11 @@
           </div>
 
           <div class="form-group">
-            time blocks
-            <%= for block <- @blocks do %>
-              <p class="form-control">
-                <%= block.start_time %> - <%= block.end_time %>
-              </p>
-            <% end %>
+            time spent
+            <p class="form-control">
+            <% f = fn(b, acc) -> if b.end_time != nil do acc + DateTime.diff(b.end_time, b.start_time) else acc + DateTime.diff(DateTime.utc_now(), b.start_time) end end %>
+            <%= Enum.reduce(@blocks, 0, f) %>
+            </p>
           </div>
 
           <div class="form-group">
@@ -47,6 +46,25 @@
               </p>
             <% end %>
           </div>
+
+          <!-- <table class="table table-striped mb-0 border-0">
+            <thead>
+              <tr>
+                <th class="border-0">time block</th>
+                <th class="border-0">start</th>
+                <th class="border-0">end</th>
+              </tr>
+            </thead>
+            <tbody>
+          <%= for block <- @blocks do %>
+              <tr>
+                <td class="align-middle border-0"><%= block.id %></td>
+                <td class="align-middle border-0"><%= block.start_time %></td>
+                <td class="align-middle border-0"><%= block.end_time %></td>
+              </tr>
+          <% end %>
+            </tbody>
+          </table> -->
 
           <%= if @current_user.id == @task.user_id do %>
             <div class="form-group">

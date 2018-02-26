@@ -51,9 +51,10 @@ defmodule TaskTrackerWeb.TaskController do
       {:ok, _task} ->
         conn
         |> put_flash(:info, "Task updated successfully.")
-        |> redirect(to: page_path(conn, :feed))
+        |> redirect(to: task_path(conn, :edit, task))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", task: task, changeset: changeset)
+        blocks = Work.get_blocks_by_task_id(id)
+        render(conn, "edit.html", task: task, changeset: changeset, blocks: blocks)
     end
   end
 
