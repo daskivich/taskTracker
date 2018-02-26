@@ -2,7 +2,7 @@
   <div class="col">
     <div class="card">
       <div class="card-body">
-        <h2 class="card-title text-center mb-2">Subordinates' Tasks</h2>
+        <h2 class="card-title text-center mb-2">Subordinate Tasks</h2>
         <table class="table table-striped mb-0 border-0">
           <thead>
             <tr>

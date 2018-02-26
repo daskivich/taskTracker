@@ -12,6 +12,15 @@
             </h3>
           </div>
 
+          <%= if @task.user_id != @current_user.id do %>
+            <div class="form-group">
+              assigned to
+              <p class="form-control">
+                <%= @task.user.name %>
+              </p>
+            </div>
+          <% end %>
+
           <div class="form-group">
             description
             <p class="form-control">
