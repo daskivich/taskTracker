@@ -18,7 +18,8 @@ defmodule TaskTrackerWeb.BlockController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", block_path(conn, :show, block))
-      |> render("show.json", block: block)
+      |> redirect(to: task_path(conn, :edit, task))
+#      |> render("show.json", block: block)
     end
   end
 

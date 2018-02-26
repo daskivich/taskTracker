@@ -28,21 +28,13 @@
         </div>
 
         <div class="form-group">
-          time spent
-          <p class="form-control">
-          <% f = fn(b, acc) -> if b.end_time != nil do acc + DateTime.diff(b.end_time, b.start_time) else acc + DateTime.diff(DateTime.utc_now(), b.start_time) end end %>
-          <%= Enum.reduce(@blocks, 0, f) %>
-          </p>
-        </div>
-
-        <div class="form-group">
           status
           <%= if @task.completed do %>
             <p class="form-control">
               completed
             </p>
           <% else %>
-            <p class="form-control incomplete">
+            <p class="form-control">
               incomplete
             </p>
           <% end %>
@@ -67,83 +59,62 @@
             <%= error_tag f, :completed %>
             <div class="form-group">
               <%= submit "close task",
-                class: "btn btn-primary btn-block bp border-0" %>
+                class: "btn btn-danger btn-block bd border-0" %>
             </div>
           <% end %>
         <% end %>
-
-        <table class="table table-striped mb-0 border-0">
-          <thead>
-            <tr>
-              <th class="border-0">time block</th>
-              <th class="border-0">start</th>
-              <th class="border-0">end</th>
-              <th class="border-0"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= for block <- @blocks do %>
-              <tr>
-                <td class="align-middle border-0">
-                  <%= block.id %>
-                </td>
-                <td class="align-middle border-0">
-                  <input type="text" value="<%= block.start_time %>"
-                    class="start-time w-100" data-id="<%= block.id %>">
-                </td>
-                <td class="align-middle border-0">
-                  <input type="text" value="<%= block.end_time %>"
-                    class="end-time w-100" data-id="<%= block.id %>">
-                </td>
-                <td class="align-middle border-0">
-                  <%= if block.end_time == nil do %>
-                    <button class="stop-block-btn btn btn-primary btn-block bp border-0"
-                      data-id="<%= block.id %>"
-                      data-task-id="<%= block.task_id %>"
-                      data-start-time="<%= block.start_time %>">
-                      end this time block
-                    </button>
-                  <% else %>
-                    <button class="update-block-btn btn btn-primary btn-block bp border-0"
-                      data-id="<%= block.id %>"
-                      data-task-id="<%= block.task_id %>">
-                      update this time block
-                    </button>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
 
         <%= if !@task.completed do %>
           <div class="form-group">
             <% open_blocks = Enum.filter(@blocks, fn b -> b.end_time == nil end) %>
             <%= if Enum.empty?(open_blocks) do %>
-              <% changeset = TaskTracker.Work.change_block(%TaskTracker.Work.Block{}) %>
-              <%= form_for changeset, block_path(@conn, :create), fn f -> %>
-                <%= if changeset.action do %>
-                  <div class="alert alert-danger">
-                    <p>
-                      Oops, something went wrong! Please check the errors below.
-                    </p>
-                  </div>
-                <% end %>
-
-                <%= hidden_input f, :start_time, value: DateTime.utc_now() %>
-                <%= error_tag f, :start_time %>
-
-                <%= hidden_input f, :end_time, value: nil %>
-                <%= error_tag f, :end_time %>
-
-                <%= hidden_input f, :task_id, value: @task.id %>
-                <%= error_tag f, :task_id %>
-
-                <%= submit "start new time block",
-                  class: "btn btn-primary btn-block bp border-0" %>
-              <% end %>
+              <%= link "start new time block", to: task_path(@conn, :edit, @task),
+                class: "btn btn-primary btn-block bp border-0 create-block-btn",
+                role: "button", data: [task_id: Integer.to_string(@task.id)] %>
+            <% else %>
+              <% [open_block | _rest] = open_blocks %>
+              <%= link "end current block", to: task_path(@conn, :edit, @task),
+                class: "btn btn-primary btn-block bp border-0 stop-block-btn",
+                role: "button",
+                data: [id: Integer.to_string(open_block.id), task_id: Integer.to_string(open_block.task_id), start_time: DateTime.to_string(open_block.start_time)] %>
             <% end %>
           </div>
+        <% end %>
+
+        <%= if !Enum.empty?(@blocks) do %>
+          <table class="table table-striped mb-0 border-0">
+            <thead>
+              <tr>
+                <th class="border-0">time block</th>
+                <th class="border-0">start</th>
+                <th class="border-0">end</th>
+                <th class="border-0"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for block <- @blocks do %>
+                <tr>
+                  <td class="align-middle border-0">
+                    <%= block.id %>
+                  </td>
+                  <td class="align-middle border-0">
+                    <input type="text" value="<%= block.start_time %>"
+                      class="start-time w-100" data-id="<%= block.id %>">
+                  </td>
+                  <td class="align-middle border-0">
+                    <input type="text" value="<%= block.end_time %>"
+                      class="end-time w-100" data-id="<%= block.id %>">
+                  </td>
+
+                  <td class="align-middle border-0">
+                    <%= link "update", to: task_path(@conn, :edit, @task),
+                      class: "btn btn-primary btn-block bp border-0 update-block-btn",
+                      role: "button", data: [id: Integer.to_string(block.id), task_id: Integer.to_string(block.task_id)] %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         <% end %>
       </div>
     </div>

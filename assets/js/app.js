@@ -31,7 +31,6 @@ function set_block_times(id, start_time, end_time) {
 
   $('.end-time').each( (_, tb) => {
     if (id == $(tb).data('id')) {
-//      let iso_end_time = end_time.toISOString();
       $(tb).val(end_time);
     }
   });
@@ -57,7 +56,7 @@ function stop_block_click(ev) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: () => { set_block_times(id, start_time, end_time); }
+    success: (resp) => { set_block_times(id, resp.data.start_time, resp.data.end_time); }
   });
 }
 
@@ -93,7 +92,30 @@ function update_block_click(ev) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: () => { set_block_times(id, start_time, end_time); }
+    success: (resp) => { set_block_times(id, resp.data.start_time, resp.data.end_time); }
+  });
+}
+
+function create_block_click(ev) {
+  let btn = $(ev.target);
+  let start_time = new Date();
+  let end_time = null;
+  let task_id = btn.data('task-id');
+
+  let text = JSON.stringify({
+    block: {
+      start_time: start_time,
+      end_time: end_time,
+      task_id: task_id
+    }
+  });
+
+  $.ajax(block_path, {
+    method: "post",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: text,
+    success: (resp) => { set_block_times(resp.data.id, start_time, end_time); }
   });
 }
 
@@ -104,6 +126,10 @@ function init_block() {
 
   if ($('.update-block-btn')) {
     $('.update-block-btn').click(update_block_click);
+  }
+
+  if ($('.create-block-btn')) {
+    $('.create-block-btn').click(create_block_click);
   }
 }
 
