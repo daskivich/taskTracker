@@ -9,7 +9,8 @@
               <th class="border-0">assigned to</th>
               <th class="border-0">title</th>
               <th class="border-0">description</th>
-              <th class="border-0">completed</th>
+              <th class="border-0">minutes invested</th>
+              <th class="border-0">status</th>
               <th class="border-0"></th>
             </tr>
           </thead>
@@ -20,22 +21,26 @@
               <td class="align-middle border-0"><%= task.user.name %></td>
               <td class="align-middle border-0"><%= task.title %></td>
               <td class="align-middle border-0"><%= task.description %></td>
-              <td class="align-middle border-0"><%= task.completed %></td>
+
+              <td class="align-middle border-0">
+                <% f = fn(b, acc) -> if b.end_time != nil do acc + DateTime.diff(b.end_time, b.start_time) else acc + DateTime.diff(DateTime.utc_now(), b.start_time) end end %>
+                <% blocks = TaskTracker.Work.get_blocks_by_task_id(task.id) %>
+                <%= Enum.reduce(blocks, 0, f) / 60 %>
+              </td>
+
+              <td class="align-middle border-0">
+                <%= if task.completed do %>
+                  completed
+                <% else %>
+                  incomplete
+                <% end %>
+              </td>
 
               <td class="align-middle text-right border-0">
                 <span>
                   <%= link "view", to: task_path(@conn, :show, task),
                     class: "btn btn-primary bp border-0" %>
                   </span>
-                <!-- <span>
-                  <%= link "Edit", to: task_path(@conn, :edit, task),
-                    class: "btn btn-default btn-xs" %>
-                  </span>
-                <span>
-                  <%= link "Delete", to: task_path(@conn, :delete, task),
-                    method: :delete, data: [confirm: "Are you sure?"],
-                    class: "btn btn-danger btn-xs" %>
-                </span> -->
               </td>
             </tr>
           <% end %>

@@ -58,7 +58,7 @@
             <%= hidden_input f, :completed, class: "form-control", value: "true" %>
             <%= error_tag f, :completed %>
             <div class="form-group">
-              <%= submit "close task",
+              <%= submit "task completed",
                 class: "btn btn-danger btn-block bd border-0" %>
             </div>
           <% end %>
