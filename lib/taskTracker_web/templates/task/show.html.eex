@@ -93,6 +93,14 @@
                 </tbody>
               </table>
             <% end %>
+
+            <div class="form-group">
+              <p>
+                <%= link "back", to: task_path(@conn, :index),
+                  class: "btn btn-primary btn-block bp border-0",
+                  role: "button"%>
+              </p>
+            </div>
           <% end %>
       </div>
     </div>

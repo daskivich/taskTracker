@@ -27,6 +27,14 @@
             <% end %>
           </p>
         </div>
+
+        <div class="form-group">
+          <p>
+            <%= link "back", to: user_path(@conn, :index),
+              class: "btn btn-primary btn-block bp border-0",
+              role: "button"%>
+          </p>
+        </div>
       </div>
     </div>
   </div>
