@@ -22,20 +22,6 @@ import "phoenix_html";
 
 import $ from "jquery";
 
-function set_block_times(id, start_time, end_time) {
-  $('.start-time').each( (_, tb) => {
-    if (id == $(tb).data('id')) {
-      $(tb).val(start_time);
-    }
-  });
-
-  $('.end-time').each( (_, tb) => {
-    if (id == $(tb).data('id')) {
-      $(tb).val(end_time);
-    }
-  });
-}
-
 function stop_block_click(ev) {
   let btn = $(ev.target);
   let id = btn.data('id');
@@ -56,7 +42,7 @@ function stop_block_click(ev) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: (resp) => { set_block_times(id, resp.data.start_time, resp.data.end_time); }
+    success: () => {}
   });
 }
 
@@ -92,7 +78,7 @@ function update_block_click(ev) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: (resp) => { set_block_times(id, resp.data.start_time, resp.data.end_time); }
+    success: () => {}
   });
 }
 
@@ -115,7 +101,20 @@ function create_block_click(ev) {
     dataType: "json",
     contentType: "application/json; charset=UTF-8",
     data: text,
-    success: (resp) => { set_block_times(resp.data.id, start_time, end_time); }
+    success: () => {}
+  });
+}
+
+function delete_block_click(ev) {
+  let btn = $(ev.target);
+  let id = btn.data('id');
+
+  $.ajax(block_path + "/" + id, {
+    method: "delete",
+    dataType: "json",
+    contentType: "application/json; charset=UTF-8",
+    data: "",
+    success: () => {}
   });
 }
 
@@ -130,6 +129,10 @@ function init_block() {
 
   if ($('.create-block-btn')) {
     $('.create-block-btn').click(create_block_click);
+  }
+
+  if ($('.delete-block-btn')) {
+    $('.delete-block-btn').click(delete_block_click);
   }
 }
 
