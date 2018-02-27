@@ -14,6 +14,6 @@ config :taskTracker, TaskTracker.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "tasktracker_test",
+  database: "tasktracker2_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
