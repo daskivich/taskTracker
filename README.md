@@ -1,6 +1,30 @@
 # TaskTracker by Daniel Daskivich
 
-Design Decisions
+Design Decisions (version 2)
+
+  * The manager/subordinate relationship was modeled by placing a 
+    manager_id foreign key in the user table to represent that user's 
+    manager, since all managers are also users. This established the 1-to-many
+    cardinality where each user can have only one manager but each
+    user can be listed as the manager for many users. This manager_id
+    foreign key was added to users table with a migration and was set
+    so that it could be null, since a user might not have a manager.
+  * A method was added to the accounts context module to get all users
+    who have a given user as their manager, helping display a list of
+    subordinates for each user.
+  * The task/index.html template was modified to list the tasks of the
+    current user's subordinates. Since page/feed.html listed the current
+    user's tasks, task/index/html was free to be used for this purpose.
+  * A list of time blocks associated with a particular task were
+    embedded as a table in task/show.html (when not within page/feed.html)
+    and task/edit.html. For the block table in task/edit.html, a combination
+    of AJAX and standard Phoenix/EEX routers/controllers was used
+    to edit time blocks. The time blocks themselves were created, edited,
+    and deleted using AJAX, but the display was refreshed using calls
+    to TaskController.edit(), which minimized the JavaScript code needed
+    to accomplish the desired functionality.
+
+Design Decisions (version 1)
 
   * The "logged in as", "log out", and "update info" header only shows
     for logged-in users. If you're not logged in, the screen should be
