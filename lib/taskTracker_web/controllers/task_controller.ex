@@ -38,7 +38,8 @@ defmodule TaskTrackerWeb.TaskController do
   def edit(conn, %{"id" => id}) do
     task = Work.get_task!(id)
     changeset = Work.change_task(task)
-    blocks = Work.get_blocks_by_task_id(id) |> Enum.sort(fn (a, b) -> a.id > b.id end)
+    blocks = Work.get_blocks_by_task_id(id)
+    |> Enum.sort(fn (a, b) -> a.id > b.id end)
     render(conn, "edit.html", task: task, changeset: changeset, blocks: blocks)
   end
 

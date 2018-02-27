@@ -3,7 +3,8 @@ defmodule TaskTracker.Work.Task do
   import Ecto.Changeset
   alias TaskTracker.Work.Task
 
-
+  # a task has a title and a description, is assigned to a users
+  # and eiter is or isn't complete
   schema "tasks" do
     field :completed, :boolean, default: false
     field :description, :string

@@ -41,6 +41,7 @@ defmodule TaskTracker.Accounts do
     Repo.get!(User, id)
   end
 
+  # selects all users who's manager_id matches the given id
   def get_subordinate_names(id) do
     query = from u in User,
       where: u.manager_id == ^id,

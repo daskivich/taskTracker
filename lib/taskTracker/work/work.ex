@@ -121,6 +121,7 @@ defmodule TaskTracker.Work do
     Repo.all(Block)
   end
 
+  # selects all blocks that are associate with the given task_id
   def get_blocks_by_task_id(task_id) do
     query = from b in Block,
       where: b.task_id == ^task_id,

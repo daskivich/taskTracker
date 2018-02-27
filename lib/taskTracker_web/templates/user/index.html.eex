@@ -18,7 +18,10 @@
             <tr>
               <td class="align-middle border-0"><%= user.name %></td>
               <td class="align-middle border-0"><%= user.email %></td>
-              <td class="align-middle border-0"><%= if user.manager == nil do "none" else user.manager.name end %></td>
+
+              <td class="align-middle border-0">
+                <%= if user.manager == nil do "none" else user.manager.name end %>
+              </td>
 
               <td class="align-middle border-0">
                 <%= link "view", to: user_path(@conn, :show, user),
@@ -39,7 +42,8 @@
                   <%= error_tag f, :email %>
                   <%= hidden_input f, :manager_id, value: @current_user.id %>
                   <%= error_tag f, :manager_id %>
-                  <%= submit "add as subordinate", class: "btn btn-danger bd border-0" %>
+                  <%= submit "add as subordinate",
+                    class: "btn btn-danger bd border-0" %>
                 <% end %>
               </td>
             </tr>

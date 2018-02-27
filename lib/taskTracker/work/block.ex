@@ -3,6 +3,8 @@ defmodule TaskTracker.Work.Block do
   import Ecto.Changeset
   alias TaskTracker.Work.Block
 
+  # a block is a continuous chunk of time with a start and possibly and end_time
+  # a block has a task to which its assigned
   schema "blocks" do
     field :end_time, :utc_datetime
     field :start_time, :utc_datetime

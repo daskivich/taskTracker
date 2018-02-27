@@ -22,6 +22,9 @@ import "phoenix_html";
 
 import $ from "jquery";
 
+// sends a JSON with the current time as end end_time
+// and the existing start time and current task_id
+// to the block update path
 function stop_block_click(ev) {
   let btn = $(ev.target);
   let id = btn.data('id');
@@ -46,6 +49,8 @@ function stop_block_click(ev) {
   });
 }
 
+// sends a JSON with the inputed start time and end end_time
+// and the current task_id to the block update path
 function update_block_click(ev) {
   let btn = $(ev.target);
   let id = btn.data('id');
@@ -82,6 +87,8 @@ function update_block_click(ev) {
   });
 }
 
+// sends a JSON with the current time as start time
+// and the current task_id to the block create path
 function create_block_click(ev) {
   let btn = $(ev.target);
   let start_time = new Date();
@@ -105,6 +112,7 @@ function create_block_click(ev) {
   });
 }
 
+// sends an empty JSON to the delete block path
 function delete_block_click(ev) {
   let btn = $(ev.target);
   let id = btn.data('id');
@@ -118,6 +126,7 @@ function delete_block_click(ev) {
   });
 }
 
+// a function to initialize block funcitonality
 function init_block() {
   if ($('.stop-block-btn')) {
     $('.stop-block-btn').click(stop_block_click);

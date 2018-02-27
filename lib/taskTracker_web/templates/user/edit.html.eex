@@ -48,7 +48,8 @@
 
           <div class="form-group">
             <%= link "delete", to: user_path(@conn, :delete, @user),
-              method: :delete, data: [confirm: "Are you sure you want to delete your account? This action is irreversible!"],
+              method: :delete,
+              data: [confirm: "Are you sure you want to delete your account? This action is irreversible!"],
               class: "btn btn-danger btn-block bd border-0",
               role: "button" %>
           </div>
