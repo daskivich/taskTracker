@@ -2,6 +2,9 @@
 
 Design Decisions (version 2)
 
+  * A more formal nav bar was added using bootstrap styling that gives
+    the current user direct access to their tasks, their profile, a list
+    of the tasks of their subordinates, and a list of all users.
   * The manager/subordinate relationship was modeled by placing a 
     manager_id foreign key in the user table to represent that user's 
     manager, since all managers are also users. This established the 1-to-many
@@ -12,6 +15,12 @@ Design Decisions (version 2)
   * A method was added to the accounts context module to get all users
     who have a given user as their manager, helping display a list of
     subordinates for each user.
+  * The user/index.html template was reformatted to match the application
+    styling, and two buttons were added for each user, one to view an 
+    individual user's profile and one to add the current user as the manager
+    of the selected user. When a user views his/her profile (as the current
+    user), he/she can select her manager. Thus the application provides
+    both ways to assign managers/subordinates.
   * The task/index.html template was modified to list the tasks of the
     current user's subordinates. Since page/feed.html listed the current
     user's tasks, task/index/html was free to be used for this purpose.
